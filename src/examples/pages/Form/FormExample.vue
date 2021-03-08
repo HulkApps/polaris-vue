@@ -34,6 +34,18 @@
           :searchable="true"
         />
 
+        <PMultiSelect :options="[
+                      {label: 'test1', value:1, disabled: false},
+                      {label: 'test2', value:2, disabled: true},
+                      {label: 'test3', value:3, disabled: true},
+                      {label: 'test4', value:4, disabled: false}
+                    ]"
+                      id="select234"
+                      label="testSelect"
+                      :multiple="false"
+                      @change="optionChanged"
+        > </PMultiSelect>
+
         <PCheckbox id="checkbox_1" value="Checkbox val 1" label="Checkbox 1" indeterminate/>
         <PCheckbox id="checkbox_2" helpText="Help text for checkbox" value="Checkbox val 2" label="Checkbox 2"/>
         <PRadioButton id="radio_1" name="layout_mode" value="standard" label="Standard" />
@@ -116,6 +128,18 @@ export default class FormExample extends Vue {
       :searchable="true"
     />
 
+     <PMultiSelect :options="[
+                    {label: 'test1', value:1, disabled: false},
+                    {label: 'test2', value:2, disabled: true},
+                    {label: 'test3', value:3, disabled: true},
+                    {label: 'test4', value:4, disabled: false}
+                  ]"
+                  id="select234"
+                  label="testSelect"
+                  :multiple="false"
+                  @change="optionChanged"
+      > </PMultiSelect>
+
     <PCheckbox label="Checkbox 1" indeterminate/>
 
     <PCheckbox v-model="cbVal" label="Checkbox 2"/>
@@ -131,6 +155,10 @@ export default class FormExample extends Vue {
 
   public handleNumberChange(val) {
     this.number = val;
+  }
+
+  public optionChanged(value) {
+    alert(value.label);
   }
 }
 </script>

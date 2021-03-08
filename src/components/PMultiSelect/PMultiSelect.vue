@@ -17,10 +17,11 @@
                     track-by="value"
                     :placeholder="placeholder"
                     :searchable="searchable"
-                    :multiple="true"
+                    :multiple="multiple"
                     :taggable="taggable"
-                    :close-on-select="false"
-                    :clear-on-select="false" :preserve-search="true"
+                    :close-on-select="!multiple"
+                    :clear-on-select="false"
+                    :preserve-search="true"
                     label="label"
                     @tag="addTag"
             >
@@ -169,6 +170,8 @@
         @Prop({type: Boolean, default: true}) public searchable!: string;
         @Prop({type: Boolean, default: false}) public taggable!: string;
         @Prop(String) public placeholder!: string;
+        @Prop({type: Boolean, default: true}) public multiple!: boolean;
+
 
         public id = `PolarisMultiSelect${new Date().getUTCMilliseconds()}`;
         public selected = this.value;
@@ -184,7 +187,7 @@
             }
             this.options.map((value) => {
                 if (typeof value === 'object') {
-                    if (value.disabled) value.disabled = value.disabled;
+                    if (value.$isDisabled) value.disabled = value.$isDisabled;
                     options.push(value);
                 } else {
                     options.push({label: value, value});

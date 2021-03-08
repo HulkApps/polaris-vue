@@ -7,7 +7,17 @@
                 </label>
             </div>
         </div>
-        <div :class="className">
+        <PMultiSelect v-if="multiSelect"
+                      :options="options"
+                      v-model="computedValue"
+                      :disabled="disabled"
+                      :searchable="searchable"
+                      :taggable="taggable"
+                      :placeholder="placeholder"
+
+        >
+        </PMultiSelect>
+        <div :class="className" v-else>
             <select
                     :id="id"
                     :name="name"
@@ -23,7 +33,7 @@
                 <span v-if="inlineLabel" class="Polaris-Select__InlineLabel">{{inlineLabel}}</span>
                 <span class="Polaris-Select__SelectedOption">{{ selectedOption }}</span>
                 <span class="Polaris-Select__Icon">
-          <PIcon :source="ArrowUpDownMinor"></PIcon>
+          <PIcon :source="ArrowUpDownMinor" />
         </span>
             </div>
             <div class="Polaris-Select__Backdrop"></div>
@@ -38,6 +48,7 @@
     import {classNames} from '@/utilities/css';
     import {PIcon} from '@/components/PIcon';
     import {PFieldError} from '@/components/PFieldError';
+    import { PMultiSelect } from '@/components/PMultiSelect';
 
     interface StrictOption {
         value: string;
@@ -62,7 +73,7 @@
     }
 
     @Component({
-        components: {PIcon, PFieldError},
+        components: {PIcon, PFieldError, PMultiSelect},
         mixins: [
             {
                 data() {
@@ -82,6 +93,11 @@
         @Prop(String) public placeholder!: string;
         @Prop(String) public error!: string;
         @Prop(String) public inlineLabel!: string;
+
+        // for multi-select
+        @Prop(Boolean) public multiSelect!: boolean;
+        @Prop({type: Boolean, default: true}) public searchable!: string;
+        @Prop({type: Boolean, default: false}) public taggable!: string;
 
         public selected = this.value;
 
@@ -124,6 +140,15 @@
                 this.disabled && 'Polaris-Select--disabled',
                 this.error && 'Polaris-Select--error',
             );
+        }
+
+        public addTag(newTag) {
+            const tag = {
+                label: newTag,
+                value: newTag,
+            };
+            this.selected.push(tag);
+            this.options.push(tag);
         }
 
         @Watch('value')
